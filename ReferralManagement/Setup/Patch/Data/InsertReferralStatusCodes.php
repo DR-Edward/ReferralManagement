@@ -35,6 +35,27 @@ class InsertReferralStatusCodes implements DataPatchInterface
      */
     public function apply()
     {
+        /**
+         * Fill table Referral_status_codes
+         */
+        $data = [
+            ["Pending", "Waiting for approval"],
+            ["Registered", "Confirmed"],
+        ];
+
+        $binds = [];
+        foreach ($data as $row) {
+            $binds[] = [
+                'code' => $row[0],
+                'description' => $row[1]
+            ];
+        }
+        if (!empty($binds)) {
+            $this->moduleDataSetup->getConnection()->insertMultiple(
+                $this->moduleDataSetup->getTable('referral_status_codes'),
+                $binds
+            );
+        }
     }
 
     /**

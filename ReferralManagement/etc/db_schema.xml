@@ -86,6 +86,7 @@
                 name="status_id"
                 unsigned="true"
                 nullable="false"
+                default="1"
                 comment="Status ID"
         />
         <column xsi:type="int"

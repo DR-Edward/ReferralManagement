@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Menu/etc/menu.xsd">
+    <menu>
+        <add id="WolfSellers_ReferralManagement::main_menu"
+             title="Wolf Sellers"
+             module="WolfSellers_ReferralManagement"
+             sortOrder="10"
+             resource="WolfSellers_ReferralManagement::main_menu"
+        />
+
+        <add id="WolfSellers_ReferralManagement::referral_menu"
+             title="▶ Referral Menu"
+             module="WolfSellers_ReferralManagement"
+             sortOrder="20"
+             parent="WolfSellers_ReferralManagement::main_menu"
+             resource="WolfSellers_ReferralManagement::referral_menu"/>
+
+        <!-- Submenu Items -->
+        <add id="WolfSellers_ReferralManagement::management"
+             title="Referral Management"
+             module="WolfSellers_ReferralManagement"
+             sortOrder="10"
+             parent="WolfSellers_ReferralManagement::referral_menu"
+             action="wolfsellers_referralmanagement/management/index"
+             resource="WolfSellers_ReferralManagement::management"/>
+
+        <add id="WolfSellers_ReferralManagement::configurations"
+             title="Configurations"
+             module="WolfSellers_ReferralManagement"
+             sortOrder="20"
+             parent="WolfSellers_ReferralManagement::referral_menu"
+             action="admin/system_config/edit/section/rm_section"
+             resource="WolfSellers_ReferralManagement::configurations"/>
+
+
+        <!--    Mistery options    -->
+        <add id="WolfSellers_ReferralManagement::extra_group"
+             title="▶ Extra Group"
+             module="WolfSellers_ReferralManagement"
+             parent="WolfSellers_ReferralManagement::main_menu"
+             sortOrder="30"
+             resource="WolfSellers_ReferralManagement::management"/>
+        <add id="WolfSellers_ReferralManagement::mistery_option"
+             title="Mistery Option"
+             module="WolfSellers_ReferralManagement"
+             parent="WolfSellers_ReferralManagement::extra_group"
+             sortOrder="10"
+             action="wolfsellers_referralmanagement/mistery/index"
+             resource="WolfSellers_ReferralManagement::management"/>
+    </menu>
+</config>

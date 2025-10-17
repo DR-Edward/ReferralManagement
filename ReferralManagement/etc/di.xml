@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="ReferralTest" xsi:type="object">WolfSellers\ReferralManagement\Console\Command\ReferralTest</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface"
+                type="WolfSellers\ReferralManagement\Model\ReferralDetails"/>
+    <preference for="WolfSellers\ReferralManagement\Api\ReferralDetailsRepositoryInterface"
+                type="WolfSellers\ReferralManagement\Model\ReferralDetailsRepository"/>
+    <preference for="WolfSellers\ReferralManagement\Api\Data\ReferralDetailsSearchResultsInterface"
+                type="WolfSellers\ReferralManagement\Model\ReferralDetailsSearchResults"/>
+
+    <virtualType name="WolfSellers\ReferralManagement\Virtual\Model\Api\SearchCriteria\ReferralDetailsCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters"    xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="sorting"    xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="WolfSellers\ReferralManagement\Model\ReferralDetailsRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">WolfSellers\ReferralManagement\Virtual\Model\Api\SearchCriteria\ReferralDetailsCollectionProcessor</argument>
+        </arguments>
+    </type>
+</config>

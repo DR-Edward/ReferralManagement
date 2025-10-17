@@ -1,0 +1,46 @@
+{
+    "referral_status_codes": {
+        "column": {
+            "id": true,
+            "code": true,
+            "description": true,
+            "created_at": true,
+            "updated_at": true,
+            "deleted_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "REFERRAL_STATUS_CODES_CODE": true
+        }
+    },
+    "referral": {
+        "column": {
+            "entity_id": true,
+            "first_name": true,
+            "last_name": true,
+            "email": true,
+            "telephone": true,
+            "status_id": true,
+            "customer_id": true,
+            "created_at": true,
+            "updated_at": true,
+            "deleted_at": true
+        },
+        "index": {
+            "REFERRAL_FIRST_NAME": true,
+            "REFERRAL_LAST_NAME": true,
+            "REFERRAL_TELEPHONE": true,
+            "REFERRAL_STATUS_ID": true,
+            "REFERRAL_CUSTOMER_ID": true,
+            "REFERRAL_CREATED_AT": true,
+            "REFERRAL_UPDATED_AT": true,
+            "REFERRAL_DELETED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "REFERRAL_EMAIL": true,
+            "REFERRAL_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true,
+            "REFERRAL_STATUS_ID_REFERRAL_STATUS_CODES_ID": true
+        }
+    }
+}

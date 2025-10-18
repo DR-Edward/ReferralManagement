@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/referralmanagement/getByIdentifier/:id" method="GET">
+        <service class="WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="get"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/referralmanagement/create" method="POST">
+        <service class="\WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="create"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/referralmanagement/delete/:id" method="DELETE">
+        <service class="WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="delete"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/referralmanagement/search" method="GET">
+        <service class="WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

@@ -93,6 +93,7 @@ class ReferralTest extends Command
             ->setDirection(SortOrder::SORT_ASC)
             ->create();
         $this->searchCriteriaBuilder
+            ->addFilter('customer_id', 2, 'eq')
             ->addSortOrder($sortOrder)
             ->setCurrentPage(1)
             ->setPageSize(30);

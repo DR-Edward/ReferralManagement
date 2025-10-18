@@ -1,0 +1,39 @@
+<?php
+/** @var \WolfSellers\ReferralManagement\ViewModel\ReferralDataView $viewModel */
+$viewModel = $block->getData('view_model');
+
+$collection = $viewModel->getReferralData();
+
+if (count($collection)) { ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col first-name"><?php echo __('First Name') ?></th>
+                <th scope="col" class="col last-name"><?php echo __('Last Name') ?></th>
+                <th scope="col" class="col email"><?php echo __('Email') ?></th>
+                <th scope="col" class="col telephone"><?php echo __('Telephone') ?></th>
+                <th scope="col" class="col status"><?php echo __('Status') ?></th>
+                <th scope="col" class="col action"><?php echo __('Action') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($collection as $item): ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtml(__('First Name')) ?>"
+                        class="col name">                 <?php echo $item->getFirstName() ?>             </td>
+                    <td data-th="<?= $block->escapeHtml(__('Last Name')) ?>"
+                        class="col name">                 <?php echo $item->getLastName() ?>             </td>
+                    <td data-th="<?= $block->escapeHtml(__('Email')) ?>"
+                        class="col email">                 <?php echo $item->getEmail() ?>             </td>
+                    <td data-th="<?= $block->escapeHtml(__('Telephone')) ?>"
+                        class="col telephone">                 <?php echo $item->getTelephone() ?>             </td>
+                    <td data-th="<?= $block->escapeHtml(__('Status')) ?>"
+                        class="col telephone">                 <?php echo $item->getStatusId() ?>             </td>
+                    <td data-th="<?= $block->escapeHtml(__('Actions')) ?>"
+                        class="col title"><?php echo date('Y-m-d', strtotime($item->getCreatedAt())); ?></td>
+                </tr>         <?php endforeach; ?>         </tbody>
+        </table>
+    </div>
+<?php } ?>

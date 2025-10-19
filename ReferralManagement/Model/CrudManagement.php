@@ -37,13 +37,7 @@ class CrudManagement implements CrudManagementInterface
     {
         $this->validator->enabled();
         $this->validator->validate($request);
-        try {
-            $results = $this->referralDetailsRepository->save($request);
-        } catch (\Throwable $e) {
-            $results = ['error' => $e->getMessage()];
-        }
-
-        return $results;
+        return $this->referralDetailsRepository->save($request);
     }
 
     /**

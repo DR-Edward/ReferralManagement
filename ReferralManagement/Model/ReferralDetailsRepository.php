@@ -76,14 +76,15 @@ class ReferralDetailsRepository implements ReferralDetailsRepositoryInterface
      */
     public function getById(int $detailsId, $includeDeleted = false ): ReferralDetailsInterface
     {
-        /** @var ReferralDetails $referralDetails */
-        $referralDetails = $this->referralDetailsFactory->create();
-        $this->referralDetailsResourceModel->load($referralDetails, $detailsId);
-        $deletedRow = !$includeDeleted && $referralDetails->getIsDeleted();
-        if (!$referralDetails->getId() || $deletedRow ) {
-            throw new NoSuchEntityException(__('Referral id not found'));
+        /** @var ReferralDetailsCollection $referralDetails */
+        $collection = $this->referralDetailsCollectionFactory->create();
+        $collection->addFieldToFilter('main_table.entity_id', $detailsId);
+        $item = $collection->getFirstItem();
+        if (!$item->getId()) {
+            throw new NoSuchEntityException(__('Referral with ID "%1" does not exist.', $detailsId));
         }
-        return $referralDetails;
+
+        return $item;
     }
 
     /**

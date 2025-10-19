@@ -65,6 +65,12 @@ interface ReferralDetailsInterface
     public function setStatusId(int $statusId): ReferralDetailsInterface;
 
     /**
+     * @return string
+     */
+    public function getStatusCode(): string;
+
+
+    /**
      * @return int
      */
     public function getCustomerId(): int;

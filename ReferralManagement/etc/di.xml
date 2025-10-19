@@ -16,6 +16,11 @@
     <preference for="WolfSellers\ReferralManagement\Api\Data\ReferralDetailsSearchResultsInterface"
                 type="WolfSellers\ReferralManagement\Model\ReferralDetailsSearchResults"/>
 
+    <preference for="WolfSellers\ReferralManagement\Api\Data\ReferralStatusCodesInterface"
+                type="WolfSellers\ReferralManagement\Model\ReferralStatusCodes"/>
+    <preference for="WolfSellers\ReferralManagement\Api\ReferralStatusCodesRepositoryInterface"
+                type="WolfSellers\ReferralManagement\Model\ReferralStatusCodesRepository"/>
+
     <virtualType name="WolfSellers\ReferralManagement\Virtual\Model\Api\SearchCriteria\ReferralDetailsCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">

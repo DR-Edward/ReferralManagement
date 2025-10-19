@@ -98,4 +98,9 @@ class ReferralDetails extends AbstractModel implements ReferralDetailsInterface
     {
         return (bool) $this->getData('deleted_at');
     }
+
+    public function getStatusCode(): string
+    {
+        return (string) $this->getData('status_code');
+    }
 }

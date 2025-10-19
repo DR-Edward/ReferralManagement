@@ -11,6 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use WolfSellers\ReferralManagement\Model\ReferralDetails;
 use WolfSellers\ReferralManagement\Model\ReferralDetailsFactory;
 use WolfSellers\ReferralManagement\Model\ReferralDetailsRepository;
+use WolfSellers\ReferralManagement\Model\ReferralStatusCodes;
+use WolfSellers\ReferralManagement\Model\ReferralStatusCodesFactory;
+use WolfSellers\ReferralManagement\Model\ReferralStatusCodesRepository;
 
 class ReferralTest extends Command
 {
@@ -31,10 +34,20 @@ class ReferralTest extends Command
      * @var SortOrderBuilder
      */
     private $sortOrderBuilder;
+    /**
+     * @var ReferralStatusCodesFactory
+     */
+    private $referralStatusCodesFactory;
+    /**
+     * @var ReferralStatusCodesRepository
+     */
+    private $referralStatusCodesRepository;
 
     public function __construct(
         ReferralDetailsFactory $referralDetailsFactory,
         ReferralDetailsRepository $referralDetailsRepository,
+        ReferralStatusCodesFactory $referralStatusCodesFactory,
+        ReferralStatusCodesRepository $referralStatusCodesRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
         string $name = null
@@ -44,6 +57,8 @@ class ReferralTest extends Command
         parent::__construct($name);
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sortOrderBuilder = $sortOrderBuilder;
+        $this->referralStatusCodesFactory = $referralStatusCodesFactory;
+        $this->referralStatusCodesRepository = $referralStatusCodesRepository;
     }
 
     protected function configure()
@@ -54,9 +69,11 @@ class ReferralTest extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getList($output);
+        $this->getElementById($output, 1);
         return 0;
     }
+
+    /** referral table */
 
     protected function createNewRecord($output) {
         $output->writeln('start: '.__FUNCTION__);
@@ -127,5 +144,14 @@ class ReferralTest extends Command
         $this->getList($output, true);
         $output->writeln('finish: '.__FUNCTION__);
 
+    }
+
+    /** status */
+
+    protected function getStatus($output, int $id) {
+        $output->writeln('start: '.__FUNCTION__);
+        $status = $this->referralStatusCodesRepository->getById($id);
+        $output->writeln(print_r($status->getData(), true));
+        $output->writeln('finish: '.__FUNCTION__);
     }
 }

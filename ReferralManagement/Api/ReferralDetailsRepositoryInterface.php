@@ -13,7 +13,7 @@ interface ReferralDetailsRepositoryInterface
     /**
      * @param \WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface|\Magento\Framework\Model\AbstractModel $referralDetails
      * @return \WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface
-     * @throws CouldNotSaveException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function save(ReferralDetailsInterface $referralDetails): ReferralDetailsInterface;
 
@@ -21,22 +21,22 @@ interface ReferralDetailsRepositoryInterface
      * @param int $detailsId
      * @param bool $includeDeleted
      * @return \WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface
-     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getById(int $detailsId, $includeDeleted = false): ReferralDetailsInterface;
 
     /**
      * @param \WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface|\Magento\Framework\Model\AbstractModel $referralDetails
      * @return bool
-     * @throws CouldNotDeleteException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function delete(ReferralDetailsInterface $referralDetails): bool;
 
     /**
      * @param int $detailsId
      * @return bool
-     * @throws CouldNotDeleteException
-     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function deleteById(int $detailsId): bool;
 
@@ -50,30 +50,30 @@ interface ReferralDetailsRepositoryInterface
     /**
      * @param \WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface|\Magento\Framework\Model\AbstractModel $referralDetails
      * @return bool
-     * @throws CouldNotDeleteException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function softDelete(ReferralDetailsInterface $referralDetails): bool;
 
     /**
      * @param int $referralId
      * @return bool
-     * @throws NoSuchEntityException
-     * @throws CouldNotDeleteException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function softDeleteById(int $referralId): bool;
 
     /**
      * @param \WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface|\Magento\Framework\Model\AbstractModel $referralDetails
      * @return bool
-     * @throws CouldNotSaveException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function restore(ReferralDetailsInterface $referralDetails): bool;
 
     /**
      * @param int $referralId
      * @return bool
-     * @throws NoSuchEntityException
-     * @throws CouldNotSaveException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function restoreById(int $referralId): bool;
 

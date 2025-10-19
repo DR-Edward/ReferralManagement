@@ -13,8 +13,16 @@ class Collection extends AbstractCollection
         $this->_init(ReferralDetails::class, ResourceReferralDetails::class);
     }
 
-    protected function _initSelect() {
+    protected function _initSelect()
+    {
         parent::_initSelect();
-        $this->addFieldToFilter('deleted_at', ['null' => true]);
+        $this->addFieldToFilter('main_table.deleted_at', ['null' => true]);
+
+        $this->getSelect()->joinLeft(
+            ['referral_status_codes' => $this->getTable('referral_status_codes')],
+            'main_table.status_id = referral_status_codes.id',
+            ['status_code' => 'referral_status_codes.code']
+        );
+        return $this;
     }
 }

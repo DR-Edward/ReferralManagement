@@ -14,7 +14,7 @@ use WolfSellers\ReferralManagement\Model\ReferralDetailsRepository;
 use WolfSellers\ReferralManagement\Model\ReferralStatusCodes;
 use WolfSellers\ReferralManagement\Model\ReferralStatusCodesFactory;
 use WolfSellers\ReferralManagement\Model\ReferralStatusCodesRepository;
-
+use WolfSellers\ReferralManagement\Actions\UpdateStatus;
 class ReferralTest extends Command
 {
 
@@ -42,6 +42,10 @@ class ReferralTest extends Command
      * @var ReferralStatusCodesRepository
      */
     private $referralStatusCodesRepository;
+    /**
+     * @var UpdateStatus
+     */
+    private $updateStatus;
 
     public function __construct(
         ReferralDetailsFactory $referralDetailsFactory,
@@ -50,6 +54,7 @@ class ReferralTest extends Command
         ReferralStatusCodesRepository $referralStatusCodesRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
+        UpdateStatus $updateStatus,
         string $name = null
     ) {
         $this->referralDetailsFactory = $referralDetailsFactory;
@@ -59,6 +64,7 @@ class ReferralTest extends Command
         $this->sortOrderBuilder = $sortOrderBuilder;
         $this->referralStatusCodesFactory = $referralStatusCodesFactory;
         $this->referralStatusCodesRepository = $referralStatusCodesRepository;
+        $this->updateStatus = $updateStatus;
     }
 
     protected function configure()
@@ -69,7 +75,9 @@ class ReferralTest extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getElementById($output, 1);
+//        $this->updateStatusFunc($output);
+//        $this->getElementById($output, 1);
+        $this->updateStatus->setRegisteredStatus('mario.morales9@example.com');
         return 0;
     }
 
@@ -144,6 +152,15 @@ class ReferralTest extends Command
         $this->getList($output, true);
         $output->writeln('finish: '.__FUNCTION__);
 
+    }
+
+    protected function updateStatusFunc($output)
+    {
+        $output->writeln('start: '.__FUNCTION__);
+        $referralDetails = $this->referralDetailsRepository->getById(5);
+        $referralDetails->setStatusId(2);
+        $this->referralDetailsRepository->save($referralDetails);
+        $output->writeln('finish: '.__FUNCTION__);
     }
 
     /** status */

@@ -9,7 +9,7 @@ use WolfSellers\ReferralManagement\Api\CrudManagementInterface;
 use WolfSellers\ReferralManagement\Api\Data\ReferralDetailsInterface;
 use WolfSellers\ReferralManagement\Api\Data\ReferralDetailsSearchResultsInterface;
 use WolfSellers\ReferralManagement\Api\ReferralDetailsRepositoryInterface;
-USE WolfSellers\ReferralManagement\Model\Config;
+use WolfSellers\ReferralManagement\Actions\ValidateReferralDetails;
 
 class CrudManagement implements CrudManagementInterface
 {
@@ -18,16 +18,16 @@ class CrudManagement implements CrudManagementInterface
      */
     private $referralDetailsRepository;
     /**
-     * @var \WolfSellers\ReferralManagement\Model\Config
+     * @var ValidateReferralDetails
      */
-    private $config;
+    private $validator;
 
     public function __construct(
         ReferralDetailsRepositoryInterface $referralDetailsRepository,
-        Config $config
+        ValidateReferralDetails $validator
     ) {
         $this->referralDetailsRepository = $referralDetailsRepository;
-        $this->config = $config;
+        $this->validator = $validator;
     }
 
     /**
@@ -35,9 +35,8 @@ class CrudManagement implements CrudManagementInterface
      */
     public function create(ReferralDetailsInterface $request): ReferralDetailsInterface
     {
-        if (!$this->config->isEnabled()) {
-            throw new LocalizedException(__('Referral Details is disabled.'));
-        }
+        $this->validator->enabled();
+        $this->validator->validate($request);
         try {
             $results = $this->referralDetailsRepository->save($request);
         } catch (\Throwable $e) {
@@ -52,16 +51,8 @@ class CrudManagement implements CrudManagementInterface
      */
     public function get(int $id): ReferralDetailsInterface
     {
-        if (!$this->config->isEnabled()) {
-            throw new LocalizedException(__('Referral Details is disabled.'));
-        }
-        try {
-            $results = $this->referralDetailsRepository->getById($id);
-        } catch (\Throwable $e) {
-            $results = ['error' => $e->getMessage()];
-        }
-
-        return $results;
+        $this->validator->enabled();
+        return $this->referralDetailsRepository->getById($id);
     }
 
     /**
@@ -69,20 +60,8 @@ class CrudManagement implements CrudManagementInterface
      */
     public function delete(int $id): array
     {
-        if (!$this->config->isEnabled()) {
-            throw new LocalizedException(__('Referral Details is disabled.'));
-        }
-        try {
-            if ($this->config->isEnabledSoftDeletes()) {
-                $results = ['success' => $this->referralDetailsRepository->softDeleteById($id)];
-            } else {
-                $results = ['success' => $this->referralDetailsRepository->deleteById($id)];
-            }
-        } catch (\Throwable $e) {
-            $results = ['error' => $e->getMessage()];
-        }
-
-        return $results;
+        $this->validator->enabled();
+        return ['success' => $this->referralDetailsRepository->deleteById($id)];
     }
 
     /**
@@ -90,10 +69,7 @@ class CrudManagement implements CrudManagementInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): ReferralDetailsSearchResultsInterface
     {
-        if (!$this->config->isEnabled()) {
-            throw new LocalizedException(__('Referral Details is disabled.'));
-        }
-
+        $this->validator->enabled();
         return $this->referralDetailsRepository->getList($searchCriteria);
     }
 

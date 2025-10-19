@@ -3,8 +3,8 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="WolfSellers_ReferralManagement::main_menu">
-                    <resource id="WolfSellers_ReferralManagement::referral_menu" title="Referral Menu" sortOrder="20">
+                <resource id="WolfSellers_ReferralManagement::main_menu" title="Wolf Sellers Main Menu" translate="title">
+                    <resource id="WolfSellers_ReferralManagement::referral_menu" title="Referral Menu" sortOrder="20" translate="title">
                         <resource id="WolfSellers_ReferralManagement::management" title="Referral Management" translate="title" sortOrder="21" />
                         <resource id="WolfSellers_ReferralManagement::configurations" title="Configurations" translate="title" sortOrder="22" />
                     </resource>

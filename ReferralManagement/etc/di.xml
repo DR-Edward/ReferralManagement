@@ -35,14 +35,4 @@
     <preference for="WolfSellers\ReferralManagement\Api\CrudManagementInterface"
                 type="\WolfSellers\ReferralManagement\Model\CrudManagement"/>
 
-
-
-    <preference for="WolfSellers\ReferralManagement\Api\GetManagementInterface"
-                type="WolfSellers\ReferralManagement\Model\GetManagement"/>
-    <preference for="WolfSellers\ReferralManagement\Api\DeleteManagementInterface"
-                type="WolfSellers\ReferralManagement\Model\DeleteManagement"/>
-    <preference for="WolfSellers\ReferralManagement\Api\CreateManagementInterface"
-                type="WolfSellers\ReferralManagement\Model\CreateManagement"/>
-
-
-</config>
+    </config>

@@ -3,25 +3,25 @@
     <route url="/V1/referralmanagement/getByIdentifier/:id" method="GET">
         <service class="WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="get"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="WolfSellers_ReferralManagement::management"/>
         </resources>
     </route>
     <route url="/V1/referralmanagement/create" method="POST">
         <service class="\WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="create"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="WolfSellers_ReferralManagement::management"/>
         </resources>
     </route>
     <route url="/V1/referralmanagement/delete/:id" method="DELETE">
         <service class="WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="delete"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="WolfSellers_ReferralManagement::management"/>
         </resources>
     </route>
     <route url="/V1/referralmanagement/search" method="GET">
         <service class="WolfSellers\ReferralManagement\Api\CrudManagementInterface" method="getList"/>
         <resources>
-            <resource ref="anonymous"/>
+            <resource ref="WolfSellers_ReferralManagement::management"/>
         </resources>
     </route>
 </routes>

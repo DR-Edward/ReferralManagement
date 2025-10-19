@@ -4,7 +4,6 @@
         <sales>
             <order_export>
                 <enabled>0</enabled>
-                <enabled_soft_deletes>1</enabled_soft_deletes>
             </order_export>
         </sales>
     </default>

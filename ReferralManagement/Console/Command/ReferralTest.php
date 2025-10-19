@@ -96,7 +96,7 @@ class ReferralTest extends Command
             ->addFilter('customer_id', 2, 'eq')
             ->addSortOrder($sortOrder)
             ->setCurrentPage(1)
-            ->setPageSize(30);
+            ->setPageSize(1);
         if ($includeDeleted) {
             $requestItems = $this->referralDetailsRepository->getListWithDeleted($this->searchCriteriaBuilder->create())->getItems();
         } else {

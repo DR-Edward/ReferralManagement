@@ -42,4 +42,13 @@
 
     <preference for="WolfSellers\ReferralManagement\Api\ValidateReferralDetailsInterface"
                 type="WolfSellers\ReferralManagement\Actions\ValidateReferralDetails"/>
+
+    <!--  Admin  -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="wolfsellers_referralmanagement_management_listing_data_source" xsi:type="string">WolfSellers\ReferralManagement\Model\ResourceModel\ReferralDetails\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

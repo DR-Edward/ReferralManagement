@@ -28,7 +28,7 @@ class Index extends Action
     {
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('WolfSellers_ReferralManagement::management');
-        $resultPage->getConfig()->getTitle()->prepend(__('Referral Grid *aquí se mostrara la tabla completa de referidos*'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Referral Grid'));
         return $resultPage;
     }
 }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">wolfsellers_referralmanagement_management_listing.wolfsellers_referralmanagement_management_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>wolfsellers_referralmanagement_detail_columns</spinner>
+        <deps>
+            <dep>wolfsellers_referralmanagement_management_listing.wolfsellers_referralmanagement_management_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="wolfsellers_referralmanagement_management_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render" />
+        </settings>
+        <aclResource>WolfSellers_ReferralManagement::management</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="wolfsellers_referralmanagement_management_listing_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks" />
+        <columnsControls name="columns_controls" />
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+            <settings>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+            </settings>
+        </filters>
+        <paging name="listing_paging" />
+    </listingToolbar>
+
+    <columns name="referrals_detail_columns">
+        <column name="first_name">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">First Name</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="last_name">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Last Name</label>
+            </settings>
+        </column>
+        <column name="email">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Email</label>
+            </settings>
+        </column>
+        <column name="telephone">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Telephone</label>
+            </settings>
+        </column>
+        <column name="status_code">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Status Code</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

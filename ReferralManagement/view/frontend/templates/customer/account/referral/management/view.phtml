@@ -1,10 +1,14 @@
 <?php
 /** @var \WolfSellers\ReferralManagement\ViewModel\ReferralDataView $viewModel */
 $viewModel = $block->getData('view_model');
-
 $collection = $viewModel->getReferralData();
+?>
 
-if (count($collection)) { ?>
+<button class="action-btn action-create" id="action-create" >
+    <span class="action-text">Agregar</span>
+</button>
+
+<?php if (count($collection)) { ?>
     <div class="table-wrapper orders-history">
         <table class="data table table-order-items history" id="my-orders-table">
             <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
@@ -19,8 +23,10 @@ if (count($collection)) { ?>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($collection as $item): ?>
+            <?php foreach ($collection as $index => $item): ?>
                 <tr>
+                    <td data-th="<?= $block->escapeHtml(__('Id')) ?>"
+                        class="col name">                 <?php echo $index ?>             </td>
                     <td data-th="<?= $block->escapeHtml(__('First Name')) ?>"
                         class="col name">                 <?php echo $item->getFirstName() ?>             </td>
                     <td data-th="<?= $block->escapeHtml(__('Last Name')) ?>"
@@ -30,10 +36,125 @@ if (count($collection)) { ?>
                     <td data-th="<?= $block->escapeHtml(__('Telephone')) ?>"
                         class="col telephone">                 <?php echo $item->getTelephone() ?>             </td>
                     <td data-th="<?= $block->escapeHtml(__('Status')) ?>"
-                        class="col telephone">                 <?php echo $item->getStatusId() ?>             </td>
+                        class="col telephone">                 <?php echo $item->getStatusCode() ?>             </td>
                     <td data-th="<?= $block->escapeHtml(__('Actions')) ?>"
-                        class="col title"><?php echo date('Y-m-d', strtotime($item->getCreatedAt())); ?></td>
+                        class="col actions">
+                        <button class="action-btn action-edit" id="editar" data-id="<?php echo $item->getId(); ?>">
+                            <span class="action-text">Editar</span>
+                        </button>
+                        <button class="action-btn action-delete" id="eliminar" data-id="<?php echo $item->getId(); ?>">
+                            <span class="action-text">Eliminar</span>
+                        </button>
+                    </td>
                 </tr>         <?php endforeach; ?>         </tbody>
         </table>
     </div>
 <?php } ?>
+
+<div id="popup-modal">
+    <div class="modal-content">
+        <h2>Confirmación de Eliminación</h2>
+        <p>¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.</p>
+    </div>
+</div>
+<style>
+    #popup-modal {
+        display: none;
+    }
+    .action-delete{
+        background-color: red;
+        color: white;
+    }
+    .action-edit{
+        background-color: green;
+        color: white;
+    }
+    #action-create {
+        background-color: #007bdb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+</style>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'Magento_Ui/js/modal/alert'
+        ],
+        function(
+            $,
+            modal,
+            alert
+        ) {
+            $(document).ready(function() {
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: 'Custom Form Popup',
+                    buttons: [
+                        {
+                            text: $.mage.__('Cancel'),
+                            class: 'action-cancel',
+                            click: function () {
+                                this.closeModal();
+                            }
+                        },
+                        {
+                            text: $.mage.__('Delete'),
+                            class: 'action-delete',
+                            click: function ()
+                            {
+                                this.closeModal();
+                                let itemId = $('#popup-modal').data('id');
+                                let deleteUrl = '<?php echo $block->getUrl("referral/management/delete/"); ?>' + '?id=' + itemId;
+                                $.ajax({
+                                    url: deleteUrl,
+                                    type: 'DELETE',
+                                    data: { id: itemId },
+                                    showLoader: true,
+                                    success: function(response) {
+                                        alert({
+                                            title: $.mage.__('Success Delete'),
+                                            content: "Selected item has been deleted successfully.",
+                                            closed: function() {
+                                                location.reload();
+                                            }
+                                        });
+                                    },
+                                    error: function(response) {
+                                        alert({
+                                            title: $.mage.__('Error'),
+                                            content: "Can't delete selected item. Please try again."
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    ]
+                };
+                var popup = modal(options, $('#popup-modal'));
+
+
+                $('.action-create').on('click', function() {
+                    let editUrl = '<?php echo $block->getUrl("referral/management/create"); ?>';
+                    window.location.href = editUrl;
+                });$('.action-edit').on('click', function() {
+                    let itemId = $(this).data('id');
+                    let editUrl = '<?php echo $block->getUrl("referral/management/edit/"); ?>' + itemId;
+                    window.location.href = editUrl;
+                });
+                $('.action-delete').on('click', function() {
+                    let itemId = $(this).data('id');
+                    $('#popup-modal').data('id', itemId).modal('openModal');
+                });
+            })
+        }
+    );
+</script>

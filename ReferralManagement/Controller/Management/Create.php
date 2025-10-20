@@ -13,7 +13,7 @@ use WolfSellers\ReferralManagement\Model\Config;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 
-class Index implements ActionInterface, HttpGetActionInterface
+class Create implements ActionInterface, HttpGetActionInterface
 {
     /**
      * @var PageFactory
@@ -70,7 +70,6 @@ class Index implements ActionInterface, HttpGetActionInterface
 
         /** @var Page $pageResult */
         $pageResult = $this->pageFactory->create();
-
         return $pageResult;
     }
 }

@@ -1,0 +1,150 @@
+<?php
+ /** @var \WolfSellers\ReferralManagement\ViewModel\EditViewModel $viewModel */
+ $viewModel = $block->getViewModel();
+ $viewModel->setBlock($block);
+?>
+<div class="referral-form-wrapper">
+    <form id="referral-form" class="referral-form">
+        <div class="field">
+            <label for="first_name"><?= __('First Name') ?></label>
+            <input type="text" name="first_name" id="first_name" class="input-text" value="<?= $block->escapeHtml($viewModel->getFirstNameFromBlock()) ?>">
+        </div>
+
+        <div class="field">
+            <label for="last_name"><?= __('Last Name') ?></label>
+            <input type="text" name="last_name" id="last_name" class="input-text" value="<?= $block->escapeHtml($viewModel->getLastNameFromBlock()) ?>">
+        </div>
+
+        <div class="field">
+            <label for="email"><?= __('Email') ?> <span class="required">*</span></label>
+            <input type="email" name="email" id="email" class="input-text" required value="<?= $block->escapeHtml($viewModel->getEmailFromBlock()) ?>">
+        </div>
+
+        <div class="field">
+            <label for="telephone"><?= __('Telephone') ?></label>
+            <input type="text" name="telephone" id="telephone" class="input-text" value="<?= $block->escapeHtml($viewModel->getTelephoneFromBlock()) ?>">
+        </div>
+
+        <!-- Llave de formulario Magento -->
+        <input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>" />
+        <input type="hidden" name="id" value="<?= $viewModel->getIdFromBlock() ?>" />
+
+        <div class="actions">
+            <button type="button" id="save-referral" class="action primary">
+                <?= __('Guardar') ?>
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Wrapper centrado y con 50% de ancho */
+    .referral-form-wrapper {
+        width: 50%;
+        margin: 40px auto;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .referral-form .field {
+        margin-bottom: 20px;
+    }
+
+    .referral-form label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .referral-form input.input-text {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .referral-form .actions {
+        text-align: right;
+    }
+
+    /* Botón guardar azul estilo Magento */
+    #save-referral {
+        background-color: #007bdb;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    #save-referral:hover {
+        background-color: #0064b5;
+    }
+
+    .required {
+        color: red;
+    }
+</style>
+
+
+<script>
+    require(['jquery', 'Magento_Ui/js/modal/alert'], function($, alert){
+        $(document).ready(function(){
+
+            $('#save-referral').on('click', function(){
+
+                // Validar que el email tenga valor
+                var email = $('#email').val().trim();
+                if(email === ''){
+                    alert({
+                        title: $.mage.__('Error'),
+                        content: $.mage.__('Email es obligatorio.')
+                    });
+                    return;
+                }
+
+                // Construir los datos del formulario
+                var formData = {
+                    first_name: $('#first_name').val(),
+                    last_name: $('#last_name').val(),
+                    email: email,
+                    telephone: $('#telephone').val(),
+                    id: $('input[name="id"]').val(),
+                    form_key: $('input[name="form_key"]').val()
+                };
+
+                $.ajax({
+                    url: '<?= $block->getUrl("referral/management/save") ?>',
+                    type: 'POST',
+                    data: formData,
+                    showLoader: true,
+                    success: function(response){
+                        alert({
+                            title: $.mage.__('Éxito'),
+                            content: $.mage.__('Registro guardado correctamente.'),
+                            closed: function() {
+                                let gridUrl = '<?php echo $block->getUrl("referral/management/index/"); ?>';
+                                window.location.href = gridUrl;
+                            }
+                        });
+                    },
+                    error: function(xhr){
+                        alert({
+                            title: $.mage.__('Error'),
+                            content: $.mage.__('No se pudo guardar el registro. Intenta de nuevo.')
+                        });
+                    }
+                });
+
+            });
+
+        });
+    });
+</script>

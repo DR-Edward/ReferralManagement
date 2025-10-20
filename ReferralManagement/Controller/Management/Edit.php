@@ -12,8 +12,10 @@ use Magento\Framework\Controller\Result\ForwardFactory;
 use WolfSellers\ReferralManagement\Model\Config;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
+use WolfSellers\ReferralManagement\Api\ValidateReferralDetailsInterface;
+use WolfSellers\ReferralManagement\Api\CrudManagementInterface;
 
-class Index implements ActionInterface, HttpGetActionInterface
+class Edit implements ActionInterface, HttpGetActionInterface
 {
     /**
      * @var PageFactory
@@ -35,6 +37,14 @@ class Index implements ActionInterface, HttpGetActionInterface
      * @var Session
      */
     private $clientSession;
+    /**
+     * @var ValidateReferralDetailsInterface
+     */
+    private $validator;
+    /**
+     * @var CrudManagementInterface
+     */
+    private $crudManagement;
 
     public function __construct(
         Context $context,
@@ -42,13 +52,17 @@ class Index implements ActionInterface, HttpGetActionInterface
         RequestInterface $request,
         ForwardFactory $forwardFactory,
         Config $config,
-        Session $clientSession
+        Session $clientSession,
+        ValidateReferralDetailsInterface $validator,
+        CrudManagementInterface $crudManagement
     ) {
         $this->pageFactory = $pageFactory;
         $this->request = $request;
         $this->forwardFactory = $forwardFactory;
         $this->config = $config;
         $this->clientSession = $clientSession;
+        $this->validator = $validator;
+        $this->crudManagement = $crudManagement;
     }
 
     /**
@@ -58,18 +72,27 @@ class Index implements ActionInterface, HttpGetActionInterface
     {
         /** @var Forward $forward */
         $forward = $this->forwardFactory->create();
-
-        if (!$this->config->isEnabled()) {
+        $referralId = $this->validator->isReferralIdValidByPath($this->request->getPathInfo());
+        $customerId = $this->clientSession->getCustomerId();
+        if (
+            $this->validator->enabled() === false
+            || $this->validator->isCustomerLoggedInBySession() === false
+            || !!$referralId === false
+            || $this->validator->isCustomerAuthorized($customerId, $referralId) === false
+        ) {
             return $forward->forward('noroute');
         }
 
-        if (!$this->clientSession->isLoggedIn()) {
-            return $forward->forward('noroute');
-        }
-
-
+        $referralItem = $this->crudManagement->get($referralId);
         /** @var Page $pageResult */
         $pageResult = $this->pageFactory->create();
+        $pageResult->getLayout()
+            ->getBlock('referral.form.block')
+            ->setData('id', $referralItem->getEntityId())
+            ->setData('first_name', $referralItem->getFirstName())
+            ->setData('last_name', $referralItem->getLastName())
+            ->setData('email', $referralItem->getEmail())
+            ->setData('telephone', $referralItem->getTelephone());
 
         return $pageResult;
     }

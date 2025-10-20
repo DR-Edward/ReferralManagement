@@ -38,6 +38,8 @@
     </type>
 
     <preference for="WolfSellers\ReferralManagement\Api\CrudManagementInterface"
-                type="\WolfSellers\ReferralManagement\Model\CrudManagement"/>
+                type="WolfSellers\ReferralManagement\Model\CrudManagement"/>
 
-    </config>
+    <preference for="WolfSellers\ReferralManagement\Api\ValidateReferralDetailsInterface"
+                type="WolfSellers\ReferralManagement\Actions\ValidateReferralDetails"/>
+</config>
